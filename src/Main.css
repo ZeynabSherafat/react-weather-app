@@ -1,0 +1,41 @@
+h1 {
+  font-size: 50px;
+  color: white;
+}
+h2 {
+  color: white;
+}
+.left-heading {
+  text-align: left;
+}
+.current-weather {
+  color: white;
+}
+.temperature {
+  margin-top: 10px;
+}
+.current-temperature {
+  text-align: center;
+  font-size: 100px;
+  font-weight: 400;
+  color: white;
+}
+.max-min {
+  font-size: 30px;
+  font-weight: 400;
+  color: white;
+}
+#width {
+  width: 30%;
+  margin-left: -5%;
+  text-align: center;
+  margin-top: -8px;
+  margin-bottom: -20px;
+}
+#windspeed {
+  color: white;
+  margin-top: -20px;
+}
+#humidity {
+  color: white;
+}

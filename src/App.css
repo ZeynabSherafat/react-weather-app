@@ -1,0 +1,25 @@
+@import url("https://fonts.googleapis.com/css2?family=Indie+Flower&family=Patrick+Hand&display=swap");
+
+.App {
+  font-family: "Patrick Hand", cursive;
+}
+
+body {
+  background: linear-gradient(
+    109.6deg,
+    rgb(36, 45, 57) 11.2%,
+    rgb(16, 37, 60) 51.2%,
+    rgb(0, 0, 0) 98.6%
+  );
+  font-family: "Patrick Hand", cursive;
+}
+.box {
+  border: none;
+  border-radius: 8px;
+  margin: 52px auto;
+  padding: 15px 25px;
+  max-width: 650px;
+  box-shadow: 2px 3px 8px black;
+  background-image: url("https://s3.amazonaws.com/shecodesio-production/uploads/files/000/058/938/original/mount.jpg?1671118583");
+  background-size: 920px;
+}
