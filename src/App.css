@@ -62,6 +62,7 @@ h2 {
 }
 .current-weather {
   color: white;
+  margin-left: 12px;
 }
 .temperature {
   margin-top: 10px;
@@ -72,11 +73,7 @@ h2 {
   font-weight: 400;
   color: white;
 }
-.max-min {
-  font-size: 30px;
-  font-weight: 400;
-  color: white;
-}
+
 #width {
   width: 30%;
   margin-left: -5%;
@@ -87,7 +84,24 @@ h2 {
 #windspeed {
   color: white;
   margin-top: -20px;
+  font-size: 18px;
 }
 #humidity {
+  color: white;
+  font-size: 18px;
+}
+.form-control {
+  display: inline;
+  max-width: 400px;
+  margin-top: 10px;
+}
+.btn {
+  margin-top: -4px;
+  padding: 6px 20px;
+}
+#current {
+  position: relative;
+  left: 488px;
+  top: -33px;
   color: white;
 }
