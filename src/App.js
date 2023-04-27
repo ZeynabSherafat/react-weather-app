@@ -2,6 +2,27 @@ import React, { useState } from "react";
 import "./App.css";
 import axios from "axios";
 export default function App() {
+  let now = new Date();
+  let days = [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+  ];
+  let week = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+
+  let hour = now.getHours();
+  if (hour < 10) {
+    hour = `0${hour}`;
+  }
+  let minute = now.getMinutes();
+  if (minute < 10) {
+    minute = `0${minute}`;
+  }
+
   let [city, setCity] = useState("");
   let [showCity, setShowCity] = useState("");
   let [showTemp, setShowTemp] = useState("");
@@ -12,6 +33,7 @@ export default function App() {
 
   function showTemperature(response) {
     console.log(response);
+    showCity = "Karaj";
     setShowCity(response.data.name);
     setShowTemp(response.data.main.temp);
     setShowHumidity(response.data.main.humidity);
@@ -28,6 +50,7 @@ export default function App() {
   function replaceCity(event) {
     setCity(event.target.value);
   }
+
   return (
     <div className="App">
       {" "}
@@ -52,8 +75,11 @@ export default function App() {
               <div class="col-9 left-heading">
                 <h1>{showCity}</h1>
                 <h2>
-                  <span id="current-day">Sunday </span>,
-                  <span id="current-time">17:20</span>
+                  <span id="current-day">{days[now.getDay()]}</span>,
+                  <span id="current-time">
+                    {" "}
+                    {hour}:{minute}
+                  </span>
                 </h2>
                 <div class="current-weather">
                   <img
