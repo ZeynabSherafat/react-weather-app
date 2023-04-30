@@ -35,40 +35,58 @@ export default function App() {
   let [showIcon, setShowIcon] = useState("");
   let [displayForecast, setDisplayForecast] = useState("");
   let [displayIcons, setDisplayIcons] = useState("");
+  function karajWeather() {}
+  let apiKey = "cabdbda40038ba7d1165b953b1c7bd6c";
+  let url = `https://api.openweathermap.org/data/2.5/weather?q=karaj&appid=${apiKey}&units=metric`;
+  axios.get(url).then(karajWeather);
+  let forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?appid=${apiKey}&units=metric&q=${city}`;
+  axios.get(forecastUrl).then(showForecast);
 
   function showTemperature(response) {
-    setShowCity(response.data.city);
-    setShowTemp(response.data.temperature.current);
-    setShowHumidity(response.data.temperature.humidity);
+    setShowCity(response.data.name);
+    setShowTemp(response.data.main.temp);
+    setShowHumidity(response.data.main.humidity);
     setShowWindSpeed(response.data.wind.speed);
-    setShowDescription(response.data.condition.description);
-    setShowIcon(response.data.condition.icon);
+    setShowDescription(response.data.weather[0].description);
+    setShowIcon(response.data.weather[0].icon);
   }
 
   function showForecast(response) {
-    console.log(response);
-
-    let dailyTemperature = response.data.daily;
+    let dailyTemperature = response.data.list;
     setDisplayForecast(
       dailyTemperature
-        .filter((item, index) => index < 5)
-        .map(function (minmaxTemp, index) {
+        .filter(
+          (item, index) =>
+            index == 0 ||
+            index == 7 ||
+            index == 15 ||
+            index == 23 ||
+            index == 31
+        )
+        .map(function (minmaxTemp, index1) {
           return (
-            <div className="col" key={index}>
-              {Math.round(minmaxTemp.temperature.minimum)}° /{" "}
-              {Math.round(minmaxTemp.temperature.maximum)}°
+            <div className="col" key={index1}>
+              {Math.round(minmaxTemp.main.temp_min)}° /{" "}
+              {Math.round(minmaxTemp.main.temp_max)}°
             </div>
           );
         })
     );
     setDisplayIcons(
       dailyTemperature
-        .filter((item, index) => index < 5)
+        .filter(
+          (item, index) =>
+            index == 0 ||
+            index == 7 ||
+            index == 15 ||
+            index == 23 ||
+            index == 31
+        )
         .map(function (icon, index) {
           return (
             <div className="col icons" key={index}>
               <img
-                src={`http://shecodes-assets.s3.amazonaws.com/api/weather/icons/${icon.condition.icon}.png`}
+                src={`https://openweathermap.org/img/wn/${icon.weather[0].icon}@2x.png`}
               />
             </div>
           );
@@ -78,11 +96,15 @@ export default function App() {
 
   function handleSubmit(event) {
     event.preventDefault();
-    let apiKey = "43481de94f2308f8b87ao0b4t918ca5a";
-    let url = `https://api.shecodes.io/weather/v1/current?query=${city}&key=${apiKey}`;
-    axios.get(url).then(showTemperature);
-    let forecastUrl = `https://api.shecodes.io/weather/v1/forecast?query=${city}&key=${apiKey}`;
-    axios.get(forecastUrl).then(showForecast);
+    if (city !== "") {
+      let apiKey = "cabdbda40038ba7d1165b953b1c7bd6c";
+      let url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
+      axios.get(url).then(showTemperature);
+      let forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?appid=${apiKey}&units=metric&q=${city}`;
+      axios.get(forecastUrl).then(showForecast);
+    } else {
+      alert("Please enter a city! 😄");
+    }
   }
   function replaceCity(event) {
     setCity(event.target.value);
@@ -120,7 +142,7 @@ export default function App() {
                 </h2>
                 <div className="current-weather">
                   <img
-                    src={`http://shecodes-assets.s3.amazonaws.com/api/weather/icons/${showIcon}.png`}
+                    src={`https://openweathermap.org/img/wn/${showIcon}@2x.png`}
                     alt="almost cloudy"
                   />
                   <p className="current-weather" id="description">
