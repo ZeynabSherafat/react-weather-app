@@ -12,7 +12,10 @@ export default function App() {
     "Friday",
     "Saturday",
   ];
-  let week = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+  function getWeekDaysFromToday() {
+    let week = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+    return week.concat(week.splice(0, new Date().getDay()));
+  }
 
   let hour = now.getHours();
   if (hour < 10) {
@@ -32,8 +35,6 @@ export default function App() {
   let [showIcon, setShowIcon] = useState("");
 
   function showTemperature(response) {
-    console.log(response);
-    showCity = "Karaj";
     setShowCity(response.data.name);
     setShowTemp(response.data.main.temp);
     setShowHumidity(response.data.main.humidity);
@@ -41,6 +42,11 @@ export default function App() {
     setShowDescription(response.data.weather[0].description);
     setShowIcon(response.data.weather[0].icon);
   }
+
+  function showForecast(response) {
+    console.log(response);
+  }
+
   function handleSubmit(event) {
     event.preventDefault();
     let apiKey = "cabdbda40038ba7d1165b953b1c7bd6c";
@@ -59,20 +65,20 @@ export default function App() {
           <form id="form" onSubmit={handleSubmit}>
             <input
               type="text"
-              class="form-control"
+              className="form-control"
               placeholder="Enter a city"
               id="city"
               onChange={replaceCity}
             />{" "}
-            <input type="submit" class="btn btn-primary" value="Search" />
+            <input type="submit" className="btn btn-primary" value="Search" />
           </form>
-          <button type="button" class="btn btn-warning" id="current">
+          <button type="button" className="btn btn-warning" id="current">
             Current
           </button>
           <br />
-          <div class="container text-center">
-            <div class="row">
-              <div class="col-9 left-heading">
+          <div className="container text-center">
+            <div className="row">
+              <div className="col-9 left-heading">
                 <h1>{showCity}</h1>
                 <h2>
                   <span id="current-day">{days[now.getDay()]}</span>,
@@ -81,18 +87,18 @@ export default function App() {
                     {hour}:{minute}
                   </span>
                 </h2>
-                <div class="current-weather">
+                <div className="current-weather">
                   <img
                     src={`https://openweathermap.org/img/wn/${showIcon}@2x.png`}
                     alt="almost cloudy"
                   />
-                  <p class="current-weather" id="description">
+                  <p className="current-weather" id="description">
                     {showDescription}
                   </p>
                 </div>
               </div>
-              <div class="col-3 temperature">
-                <div class="current-temperature">
+              <div className="col-3 temperature">
+                <div className="current-temperature">
                   <span id="the-degree">{Math.round(showTemp)}°</span>
                   <div id="windspeed">
                     Windspeed: {Math.round(showWindSpeed)} km/h
@@ -103,39 +109,40 @@ export default function App() {
             </div>
           </div>{" "}
           <br />
-          <p class="days">Days</p>
+          <p className="days">Days</p>
           <hr />
-          <div class="container text-center">
-            <div class="row week">
-              <div class="col">Sat</div>
-              <div class="col">Sun</div>
-              <div class="col">Mon</div>
-              <div class="col">Tue</div>
-              <div class="col">Wed</div>
+          <div className="container text-center">
+            <div className="row week">
+              {getWeekDaysFromToday()
+                .filter((item, index) => index < 6)
+                .splice(1)
+                .map((day) => (
+                  <div className="col">{day}</div>
+                ))}
             </div>
-            <div class="row">
-              <div class="col">
+            <div className="row">
+              <div className="col">
                 <img src="/img/cloudy.png" alt="cloudy" />
               </div>
-              <div class="col">
+              <div className="col">
                 <img src="/img/cloudy.png" alt="cloudy" />
               </div>
-              <div class="col">
+              <div className="col">
                 <img src="/img/sunny.png" alt="Sunny" />
               </div>
-              <div class="col">
+              <div className="col">
                 <img src="/img/cloudy.png" alt="cloudy" />
               </div>
-              <div class="col">
+              <div className="col">
                 <img src="/img/cloudy.png" alt="cloudy" />
               </div>
             </div>
-            <div class="row numbers">
-              <div class="col">11° / 3°</div>
-              <div class="col">11° / 2°</div>
-              <div class="col">12° / 2°</div>
-              <div class="col">11° / 2°</div>
-              <div class="col">8° / 1°</div>
+            <div className="row numbers">
+              <div className="col">11° / 3°</div>
+              <div className="col">11° / 2°</div>
+              <div className="col">12° / 2°</div>
+              <div className="col">11° / 2°</div>
+              <div className="col">8° / 1°</div>
             </div>
           </div>{" "}
         </div>
