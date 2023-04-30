@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "./App.css";
 import axios from "axios";
+import { useEffect } from "react";
 export default function App() {
   let now = new Date();
   let days = [
@@ -35,12 +36,27 @@ export default function App() {
   let [showIcon, setShowIcon] = useState("");
   let [displayForecast, setDisplayForecast] = useState("");
   let [displayIcons, setDisplayIcons] = useState("");
-  function karajWeather() {}
-  let apiKey = "cabdbda40038ba7d1165b953b1c7bd6c";
-  let url = `https://api.openweathermap.org/data/2.5/weather?q=karaj&appid=${apiKey}&units=metric`;
-  axios.get(url).then(karajWeather);
-  let forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?appid=${apiKey}&units=metric&q=${city}`;
-  axios.get(forecastUrl).then(showForecast);
+
+  useEffect(() => {
+    let mainUrl = `https://api.openweathermap.org/data/2.5/weather?q=karaj&appid=cabdbda40038ba7d1165b953b1c7bd6c&units=metric`;
+    axios.get(mainUrl).then(showTemperature);
+    let forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?appid=cabdbda40038ba7d1165b953b1c7bd6c&units=metric&q=karaj`;
+    axios.get(forecastUrl).then(showForecast);
+  }, []);
+
+  function currentlocation(event1) {
+    event1.preventDefault();
+    function showCurrentLocation(position) {
+      let latitude = position.coords.latitude;
+      let longitude = position.coords.longitude;
+      let apiKey = "cabdbda40038ba7d1165b953b1c7bd6c";
+      let currentLocationForecastUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${apiKey}&units=metric`;
+      axios.get(currentLocationForecastUrl).then(showTemperature);
+      let forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?appid=${apiKey}&units=metric&lat=${latitude}&lon=${longitude}`;
+      axios.get(forecastUrl).then(showForecast);
+    }
+    navigator.geolocation.getCurrentPosition(showCurrentLocation);
+  }
 
   function showTemperature(response) {
     setShowCity(response.data.name);
@@ -86,6 +102,7 @@ export default function App() {
           return (
             <div className="col icons" key={index}>
               <img
+                id="forecast-icon"
                 src={`https://openweathermap.org/img/wn/${icon.weather[0].icon}@2x.png`}
               />
             </div>
@@ -125,7 +142,12 @@ export default function App() {
             />{" "}
             <input type="submit" className="btn btn-primary" value="Search" />
           </form>
-          <button type="button" className="btn btn-warning" id="current">
+          <button
+            type="button"
+            className="btn btn-warning"
+            id="current"
+            onClick={currentlocation}
+          >
             Current
           </button>
           <br />

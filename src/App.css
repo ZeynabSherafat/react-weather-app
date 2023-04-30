@@ -47,8 +47,8 @@ hr {
   margin-right: 425px;
   margin-top: -43px;
 }
-.icons {
-  width: 5px;
+#forecast-icon {
+  width: 70%;
 }
 #git {
   text-decoration: none;
