@@ -33,6 +33,7 @@ export default function App() {
   let [showWindSpeed, setShowWindSpeed] = useState("");
   let [showDescription, setShowDescription] = useState("");
   let [showIcon, setShowIcon] = useState("");
+  let [minTemperature, setMinTemperature] = useState("");
 
   function showTemperature(response) {
     setShowCity(response.data.name);
@@ -45,6 +46,9 @@ export default function App() {
 
   function showForecast(response) {
     console.log(response);
+    let dailyForecastInfo = response.data.daily;
+
+    return dailyForecastInfo;
   }
 
   function handleSubmit(event) {
@@ -52,6 +56,9 @@ export default function App() {
     let apiKey = "cabdbda40038ba7d1165b953b1c7bd6c";
     let url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
     axios.get(url).then(showTemperature);
+    let forecastApiKey = "43481de94f2308f8b87ao0b4t918ca5a";
+    let forecastUrl = `https://api.shecodes.io/weather/v1/forecast?query=${city}&key=${forecastApiKey}`;
+    axios.get(forecastUrl).then(showForecast);
   }
   function replaceCity(event) {
     setCity(event.target.value);
@@ -138,11 +145,11 @@ export default function App() {
               </div>
             </div>
             <div className="row numbers">
-              <div className="col">11° / 3°</div>
-              <div className="col">11° / 2°</div>
-              <div className="col">12° / 2°</div>
-              <div className="col">11° / 2°</div>
-              <div className="col">8° / 1°</div>
+              {showForecast().map((forecast, index) => (
+                <div key={index} className="col">
+                  {forecast.minTemp}°/ 3°
+                </div>
+              ))}
             </div>
           </div>{" "}
         </div>
