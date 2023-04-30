@@ -38,9 +38,9 @@ export default function App() {
   let [displayIcons, setDisplayIcons] = useState("");
 
   useEffect(() => {
-    let mainUrl = `https://api.openweathermap.org/data/2.5/weather?q=karaj&appid=cabdbda40038ba7d1165b953b1c7bd6c&units=metric`;
+    let mainUrl = `https://api.openweathermap.org/data/2.5/weather?q=karaj&appid=535cacbb3f8a0df0aeb4790235b9541f&units=metric`;
     axios.get(mainUrl).then(showTemperature);
-    let forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?appid=cabdbda40038ba7d1165b953b1c7bd6c&units=metric&q=karaj`;
+    let forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?appid=535cacbb3f8a0df0aeb4790235b9541f&units=metric&q=karaj`;
     axios.get(forecastUrl).then(showForecast);
   }, []);
 
@@ -49,7 +49,7 @@ export default function App() {
     function showCurrentLocation(position) {
       let latitude = position.coords.latitude;
       let longitude = position.coords.longitude;
-      let apiKey = "cabdbda40038ba7d1165b953b1c7bd6c";
+      let apiKey = "535cacbb3f8a0df0aeb4790235b9541f";
       let currentLocationForecastUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${apiKey}&units=metric`;
       axios.get(currentLocationForecastUrl).then(showTemperature);
       let forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?appid=${apiKey}&units=metric&lat=${latitude}&lon=${longitude}`;
@@ -115,7 +115,7 @@ export default function App() {
   function handleSubmit(event) {
     event.preventDefault();
     if (city !== "") {
-      let apiKey = "cabdbda40038ba7d1165b953b1c7bd6c";
+      let apiKey = "535cacbb3f8a0df0aeb4790235b9541f";
       let url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
       axios.get(url).then(showTemperature);
       let forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?appid=${apiKey}&units=metric&q=${city}`;
