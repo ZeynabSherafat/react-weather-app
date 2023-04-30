@@ -73,11 +73,11 @@ export default function App() {
       dailyTemperature
         .filter(
           (item, index) =>
-            index == 0 ||
-            index == 7 ||
-            index == 15 ||
-            index == 23 ||
-            index == 31
+            index === 0 ||
+            index === 7 ||
+            index === 15 ||
+            index === 23 ||
+            index === 31
         )
         .map(function (minmaxTemp, index1) {
           return (
@@ -92,16 +92,17 @@ export default function App() {
       dailyTemperature
         .filter(
           (item, index) =>
-            index == 0 ||
-            index == 7 ||
-            index == 15 ||
-            index == 23 ||
-            index == 31
+            index === 0 ||
+            index === 7 ||
+            index === 15 ||
+            index === 23 ||
+            index === 31
         )
         .map(function (icon, index) {
           return (
             <div className="col icons" key={index}>
               <img
+                alt="icons"
                 id="forecast-icon"
                 src={`https://openweathermap.org/img/wn/${icon.weather[0].icon}@2x.png`}
               />
