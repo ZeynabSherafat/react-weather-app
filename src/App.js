@@ -33,31 +33,55 @@ export default function App() {
   let [showWindSpeed, setShowWindSpeed] = useState("");
   let [showDescription, setShowDescription] = useState("");
   let [showIcon, setShowIcon] = useState("");
-  let [minTemperature, setMinTemperature] = useState("");
+  let [displayForecast, setDisplayForecast] = useState("");
+  let [displayIcons, setDisplayIcons] = useState("");
 
   function showTemperature(response) {
-    setShowCity(response.data.name);
-    setShowTemp(response.data.main.temp);
-    setShowHumidity(response.data.main.humidity);
+    setShowCity(response.data.city);
+    setShowTemp(response.data.temperature.current);
+    setShowHumidity(response.data.temperature.humidity);
     setShowWindSpeed(response.data.wind.speed);
-    setShowDescription(response.data.weather[0].description);
-    setShowIcon(response.data.weather[0].icon);
+    setShowDescription(response.data.condition.description);
+    setShowIcon(response.data.condition.icon);
   }
 
   function showForecast(response) {
     console.log(response);
-    let dailyForecastInfo = response.data.daily;
 
-    return dailyForecastInfo;
+    let dailyTemperature = response.data.daily;
+    setDisplayForecast(
+      dailyTemperature
+        .filter((item, index) => index < 5)
+        .map(function (minmaxTemp, index) {
+          return (
+            <div className="col" key={index}>
+              {Math.round(minmaxTemp.temperature.minimum)}° /{" "}
+              {Math.round(minmaxTemp.temperature.maximum)}°
+            </div>
+          );
+        })
+    );
+    setDisplayIcons(
+      dailyTemperature
+        .filter((item, index) => index < 5)
+        .map(function (icon, index) {
+          return (
+            <div className="col icons" key={index}>
+              <img
+                src={`http://shecodes-assets.s3.amazonaws.com/api/weather/icons/${icon.condition.icon}.png`}
+              />
+            </div>
+          );
+        })
+    );
   }
 
   function handleSubmit(event) {
     event.preventDefault();
-    let apiKey = "cabdbda40038ba7d1165b953b1c7bd6c";
-    let url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
+    let apiKey = "43481de94f2308f8b87ao0b4t918ca5a";
+    let url = `https://api.shecodes.io/weather/v1/current?query=${city}&key=${apiKey}`;
     axios.get(url).then(showTemperature);
-    let forecastApiKey = "43481de94f2308f8b87ao0b4t918ca5a";
-    let forecastUrl = `https://api.shecodes.io/weather/v1/forecast?query=${city}&key=${forecastApiKey}`;
+    let forecastUrl = `https://api.shecodes.io/weather/v1/forecast?query=${city}&key=${apiKey}`;
     axios.get(forecastUrl).then(showForecast);
   }
   function replaceCity(event) {
@@ -96,7 +120,7 @@ export default function App() {
                 </h2>
                 <div className="current-weather">
                   <img
-                    src={`https://openweathermap.org/img/wn/${showIcon}@2x.png`}
+                    src={`http://shecodes-assets.s3.amazonaws.com/api/weather/icons/${showIcon}.png`}
                     alt="almost cloudy"
                   />
                   <p className="current-weather" id="description">
@@ -127,30 +151,8 @@ export default function App() {
                   <div className="col">{day}</div>
                 ))}
             </div>
-            <div className="row">
-              <div className="col">
-                <img src="/img/cloudy.png" alt="cloudy" />
-              </div>
-              <div className="col">
-                <img src="/img/cloudy.png" alt="cloudy" />
-              </div>
-              <div className="col">
-                <img src="/img/sunny.png" alt="Sunny" />
-              </div>
-              <div className="col">
-                <img src="/img/cloudy.png" alt="cloudy" />
-              </div>
-              <div className="col">
-                <img src="/img/cloudy.png" alt="cloudy" />
-              </div>
-            </div>
-            <div className="row numbers">
-              {showForecast().map((forecast, index) => (
-                <div key={index} className="col">
-                  {forecast.minTemp}°/ 3°
-                </div>
-              ))}
-            </div>
+            <div className="row">{displayIcons}</div>
+            <div className="row numbers">{displayForecast}</div>
           </div>{" "}
         </div>
         <p className="below">
