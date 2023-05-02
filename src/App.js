@@ -29,12 +29,8 @@ export default function App() {
 
   const [on, setOn] = useState(false);
   let [city, setCity] = useState("");
-  let [showCity, setShowCity] = useState("");
-  let [showTemp, setShowTemp] = useState("");
-  let [showHumidity, setShowHumidity] = useState("");
-  let [showWindSpeed, setShowWindSpeed] = useState("");
-  let [showDescription, setShowDescription] = useState("");
-  let [showIcon, setShowIcon] = useState("");
+  let [weather, setWeather] = useState({});
+
   let [displayForecast, setDisplayForecast] = useState("");
   let [displayIcons, setDisplayIcons] = useState("");
 
@@ -53,12 +49,15 @@ export default function App() {
   }
 
   function showTemperature(response) {
-    setShowCity(response.data.name);
-    setShowTemp(response.data.main.temp);
-    setShowHumidity(response.data.main.humidity);
-    setShowWindSpeed(response.data.wind.speed);
-    setShowDescription(response.data.weather[0].description);
-    setShowIcon(response.data.weather[0].icon);
+    setWeather({
+      city: response.data.name,
+      temp: response.data.main.temp,
+      humidity: response.data.main.humidity,
+      wind: response.data.wind.speed,
+      description: response.data.weather[0].description,
+      icon: response.data.weather[0].icon,
+    });
+
     setOn(true);
   }
 
@@ -152,7 +151,7 @@ export default function App() {
             <div className="container text-center">
               <div className="row">
                 <div className="col-9 left-heading">
-                  <h1>{showCity}</h1>
+                  <h1>{weather.city}</h1>
                   <h2>
                     <span id="current-day">{days[now.getDay()]}</span>,
                     <span id="current-time">
@@ -162,21 +161,21 @@ export default function App() {
                   </h2>
                   <div className="current-weather">
                     <img
-                      src={`https://openweathermap.org/img/wn/${showIcon}@2x.png`}
+                      src={`https://openweathermap.org/img/wn/${weather.icon}@2x.png`}
                       alt="almost cloudy"
                     />
                     <p className="current-weather" id="description">
-                      {showDescription}
+                      {weather.description}
                     </p>
                   </div>
                 </div>
                 <div className="col-3 temperature">
                   <div className="current-temperature">
-                    <span id="the-degree">{Math.round(showTemp)}°</span>
+                    <span id="the-degree">{Math.round(weather.temp)}°</span>
                     <div id="windspeed">
-                      Windspeed: {Math.round(showWindSpeed)} km/h
+                      Windspeed: {Math.round(weather.wind)} km/h
                     </div>
-                    <div id="humidity">Humidity: {showHumidity}%</div>
+                    <div id="humidity">Humidity: {weather.humidity}%</div>
                   </div>
                 </div>
               </div>
