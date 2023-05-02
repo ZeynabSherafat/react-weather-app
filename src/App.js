@@ -189,8 +189,10 @@ export default function App() {
                 {getWeekDaysFromToday()
                   .filter((item, index) => index < 6)
                   .splice(1)
-                  .map((day) => (
-                    <div className="col">{day}</div>
+                  .map((day, index) => (
+                    <div className="col" key={index}>
+                      {day}
+                    </div>
                   ))}
               </div>
               <div className="row">{displayIcons}</div>
