@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./App.css";
 import axios from "axios";
-import { useEffect } from "react";
+
 export default function App() {
   let now = new Date();
   let days = [
@@ -27,6 +27,7 @@ export default function App() {
     minute = `0${minute}`;
   }
 
+  const [on, setOn] = useState(false);
   let [city, setCity] = useState("");
   let [showCity, setShowCity] = useState("");
   let [showTemp, setShowTemp] = useState("");
@@ -36,13 +37,6 @@ export default function App() {
   let [showIcon, setShowIcon] = useState("");
   let [displayForecast, setDisplayForecast] = useState("");
   let [displayIcons, setDisplayIcons] = useState("");
-
-  useEffect(() => {
-    let mainUrl = `https://api.openweathermap.org/data/2.5/weather?q=karaj&appid=535cacbb3f8a0df0aeb4790235b9541f&units=metric`;
-    axios.get(mainUrl).then(showTemperature);
-    let forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?appid=535cacbb3f8a0df0aeb4790235b9541f&units=metric&q=karaj`;
-    axios.get(forecastUrl).then(showForecast);
-  }, []);
 
   function currentlocation(event1) {
     event1.preventDefault();
@@ -65,6 +59,7 @@ export default function App() {
     setShowWindSpeed(response.data.wind.speed);
     setShowDescription(response.data.weather[0].description);
     setShowIcon(response.data.weather[0].icon);
+    setOn(true);
   }
 
   function showForecast(response) {
@@ -110,6 +105,7 @@ export default function App() {
           );
         })
     );
+    setOn(true);
   }
 
   function handleSubmit(event) {
@@ -127,91 +123,99 @@ export default function App() {
   function replaceCity(event) {
     setCity(event.target.value);
   }
-
-  return (
-    <div className="App">
-      {" "}
-      <div className="container">
-        <div className="box">
-          <form id="form" onSubmit={handleSubmit}>
-            <input
-              type="text"
-              className="form-control"
-              placeholder="Enter a city"
-              id="city"
-              onChange={replaceCity}
-            />{" "}
-            <input type="submit" className="btn btn-primary" value="Search" />
-          </form>
-          <button
-            type="button"
-            className="btn btn-warning"
-            id="current"
-            onClick={currentlocation}
-          >
-            Current
-          </button>
-          <br />
-          <div className="container text-center">
-            <div className="row">
-              <div className="col-9 left-heading">
-                <h1>{showCity}</h1>
-                <h2>
-                  <span id="current-day">{days[now.getDay()]}</span>,
-                  <span id="current-time">
-                    {" "}
-                    {hour}:{minute}
-                  </span>
-                </h2>
-                <div className="current-weather">
-                  <img
-                    src={`https://openweathermap.org/img/wn/${showIcon}@2x.png`}
-                    alt="almost cloudy"
-                  />
-                  <p className="current-weather" id="description">
-                    {showDescription}
-                  </p>
-                </div>
-              </div>
-              <div className="col-3 temperature">
-                <div className="current-temperature">
-                  <span id="the-degree">{Math.round(showTemp)}°</span>
-                  <div id="windspeed">
-                    Windspeed: {Math.round(showWindSpeed)} km/h
+  if (on === true) {
+    return (
+      <div className="App">
+        {" "}
+        <div className="container">
+          <div className="box">
+            <form id="form" onSubmit={handleSubmit}>
+              <input
+                type="text"
+                className="form-control"
+                placeholder="Enter a city"
+                autoFocus="on"
+                id="city"
+                onChange={replaceCity}
+              />{" "}
+              <input type="submit" className="btn btn-primary" value="Search" />
+            </form>
+            <button
+              type="button"
+              className="btn btn-warning"
+              id="current"
+              onClick={currentlocation}
+            >
+              Current
+            </button>
+            <br />
+            <div className="container text-center">
+              <div className="row">
+                <div className="col-9 left-heading">
+                  <h1>{showCity}</h1>
+                  <h2>
+                    <span id="current-day">{days[now.getDay()]}</span>,
+                    <span id="current-time">
+                      {" "}
+                      {hour}:{minute}
+                    </span>
+                  </h2>
+                  <div className="current-weather">
+                    <img
+                      src={`https://openweathermap.org/img/wn/${showIcon}@2x.png`}
+                      alt="almost cloudy"
+                    />
+                    <p className="current-weather" id="description">
+                      {showDescription}
+                    </p>
                   </div>
-                  <div id="humidity">Humidity: {showHumidity}%</div>
+                </div>
+                <div className="col-3 temperature">
+                  <div className="current-temperature">
+                    <span id="the-degree">{Math.round(showTemp)}°</span>
+                    <div id="windspeed">
+                      Windspeed: {Math.round(showWindSpeed)} km/h
+                    </div>
+                    <div id="humidity">Humidity: {showHumidity}%</div>
+                  </div>
                 </div>
               </div>
-            </div>
-          </div>{" "}
-          <br />
-          <p className="days">Days</p>
-          <hr />
-          <div className="container text-center">
-            <div className="row week">
-              {getWeekDaysFromToday()
-                .filter((item, index) => index < 6)
-                .splice(1)
-                .map((day) => (
-                  <div className="col">{day}</div>
-                ))}
-            </div>
-            <div className="row">{displayIcons}</div>
-            <div className="row numbers">{displayForecast}</div>
-          </div>{" "}
+            </div>{" "}
+            <br />
+            <p className="days">Days</p>
+            <hr />
+            <div className="container text-center">
+              <div className="row week">
+                {getWeekDaysFromToday()
+                  .filter((item, index) => index < 6)
+                  .splice(1)
+                  .map((day) => (
+                    <div className="col">{day}</div>
+                  ))}
+              </div>
+              <div className="row">{displayIcons}</div>
+              <div className="row numbers">{displayForecast}</div>
+            </div>{" "}
+          </div>
+          <p className="below">
+            <a
+              href="https://github.com/ZeynabSherafat/react-weather-app"
+              target="_blank"
+              rel="noreferrer"
+              id="git"
+            >
+              Open-source code
+            </a>{" "}
+            by Zeynab Sherafat
+          </p>{" "}
         </div>
-        <p className="below">
-          <a
-            href="https://github.com/ZeynabSherafat/react-weather-app"
-            target="_blank"
-            rel="noreferrer"
-            id="git"
-          >
-            Open-source code
-          </a>{" "}
-          by Zeynab Sherafat
-        </p>{" "}
       </div>
-    </div>
-  );
+    );
+  } else {
+    let mainUrl = `https://api.openweathermap.org/data/2.5/weather?q=karaj&appid=535cacbb3f8a0df0aeb4790235b9541f&units=metric`;
+    axios.get(mainUrl).then(showTemperature);
+    let forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?appid=535cacbb3f8a0df0aeb4790235b9541f&units=metric&q=karaj`;
+    axios.get(forecastUrl).then(showForecast);
+    return "Loading...";
+  }
 }
