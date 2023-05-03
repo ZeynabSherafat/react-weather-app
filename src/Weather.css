@@ -1,0 +1,72 @@
+h1 {
+  font-size: 50px;
+  color: white;
+}
+hr {
+  color: white;
+}
+.box {
+  border: none;
+  border-radius: 8px;
+  margin: 52px auto;
+  padding: 15px 25px;
+  max-width: 650px;
+  box-shadow: 2px 3px 8px black;
+  background-image: url("https://s3.amazonaws.com/shecodesio-production/uploads/files/000/058/938/original/mount.jpg?1671118583");
+  background-size: 920px;
+}
+.form-control {
+  display: inline;
+  max-width: 400px;
+  margin-top: 10px;
+}
+.btn {
+  margin-top: -4px;
+  padding: 6px 20px;
+}
+.left-heading {
+  text-align: left;
+}
+.current-weather {
+  color: white;
+  margin-left: 12px;
+}
+.temperature {
+  margin-top: 10px;
+}
+.current-temperature {
+  text-align: center;
+  font-size: 100px;
+  font-weight: 400;
+  color: white;
+}
+.days {
+  font-size: 25px;
+  color: white;
+}
+.week {
+  font-size: 20px;
+  color: white;
+}
+.numbers {
+  color: white;
+}
+#windspeed {
+  color: white;
+  margin-top: -20px;
+  font-size: 16px;
+}
+#humidity {
+  color: white;
+  font-size: 16px;
+}
+#forecast-icon {
+  width: 70%;
+}
+
+#current {
+  position: relative;
+  left: 488px;
+  top: -33px;
+  color: white;
+}

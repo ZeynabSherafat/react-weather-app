@@ -1,4 +1,5 @@
 import React from "react";
+import "./GetDate.css";
 
 export default function GetDate() {
   let now = new Date();
@@ -20,12 +21,14 @@ export default function GetDate() {
     minute = `0${minute}`;
   }
   return (
-    <h2>
-      <span id="current-day">{days[now.getDay()]}</span>,
-      <span id="current-time">
-        {" "}
-        {hour}:{minute}
-      </span>
-    </h2>
+    <div className="GetDate">
+      <h2>
+        <span id="current-day">{days[now.getDay()]}</span>,
+        <span id="current-time">
+          {" "}
+          {hour}:{minute}
+        </span>
+      </h2>
+    </div>
   );
 }
