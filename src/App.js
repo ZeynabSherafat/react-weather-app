@@ -1,36 +1,17 @@
 import React, { useState } from "react";
 import "./App.css";
 import axios from "axios";
+import GetDate from "./GetDate";
 
 export default function App() {
-  let now = new Date();
-  let days = [
-    "Sunday",
-    "Monday",
-    "Tuesday",
-    "Wednesday",
-    "Thursday",
-    "Friday",
-    "Saturday",
-  ];
   function getWeekDaysFromToday() {
     let week = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
     return week.concat(week.splice(0, new Date().getDay()));
   }
 
-  let hour = now.getHours();
-  if (hour < 10) {
-    hour = `0${hour}`;
-  }
-  let minute = now.getMinutes();
-  if (minute < 10) {
-    minute = `0${minute}`;
-  }
-
   const [on, setOn] = useState(false);
   let [city, setCity] = useState("");
   let [weather, setWeather] = useState({});
-
   let [displayForecast, setDisplayForecast] = useState("");
   let [displayIcons, setDisplayIcons] = useState("");
 
@@ -152,13 +133,7 @@ export default function App() {
               <div className="row">
                 <div className="col-9 left-heading">
                   <h1>{weather.city}</h1>
-                  <h2>
-                    <span id="current-day">{days[now.getDay()]}</span>,
-                    <span id="current-time">
-                      {" "}
-                      {hour}:{minute}
-                    </span>
-                  </h2>
+                  <GetDate />
                   <div className="current-weather">
                     <img
                       src={`https://openweathermap.org/img/wn/${weather.icon}@2x.png`}
